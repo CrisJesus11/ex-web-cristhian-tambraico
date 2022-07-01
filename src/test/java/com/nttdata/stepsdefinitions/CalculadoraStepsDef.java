@@ -1,18 +1,19 @@
 package com.nttdata.stepsdefinitions;
 
-import com.nttdata.steps.SumarSteps;
+import com.nttdata.steps.CalculadoraSteps;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class SumarStepsDef {
+public class CalculadoraStepsDef {
 
     private WebDriver driver;
     private Scenario scenario;
@@ -34,27 +35,31 @@ public class SumarStepsDef {
 
     @After
     public void quitDriver(){
-        //driver.quit();
+        driver.quit();
     }
     @Dado("que me encuentro en la pagina de BasicCalculator")
     public void que_me_encuentro_en_la_pagina_de_basic_calculator() {
         driver.get("https://testsheepnz.github.io/BasicCalculator.html");
         screenShot();
     }
-    @Cuando("ingreso los numeros numero1 : {string} Y numero2: {string}")
-    public void ingreso_los_numeros_numero1_y_numero2(String numero1, String numero2) {
-        SumarSteps sumarSteps = new SumarSteps(driver);
-        sumarSteps.limpiar();
-        sumarSteps.typeNumero1(numero1);
-        sumarSteps.typeNumero2(numero2);
-        sumarSteps.operacion();
-        sumarSteps.calcular();
+    @Cuando("ingreso los numeros numero1 : {string} Y numero2: {string} y opcion: {string}")
+    public void ingreso_los_numeros_numero1_y_numero2_y_opcion(String numero1, String numero2, String opcion) {
+        CalculadoraSteps calculadoraSteps = new CalculadoraSteps(driver);
+        calculadoraSteps.limpiar();
+        calculadoraSteps.typeNumero1(numero1);
+        calculadoraSteps.typeNumero2(numero2);
+        calculadoraSteps.operacion(opcion);
+        calculadoraSteps.calcular();
 
     }
     @Entonces("valido que el resultado sea {string}")
-    public void valido_que_el_resultado_sea(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void valido_que_el_resultado_sea(String resul) {
+        CalculadoraSteps calculadoraSteps = new CalculadoraSteps(driver);
+        String resultado = calculadoraSteps.getResultado();
+        screenShot();
+
+        Assertions.assertTrue(resultado != resul,"El resultado es correctos");
+
     }
 
     public void screenShot(){

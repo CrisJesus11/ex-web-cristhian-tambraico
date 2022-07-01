@@ -6,10 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-public class SumarSteps {
+public class CalculadoraSteps {
     private WebDriver driver;
 
-    public SumarSteps(WebDriver driver){
+    public CalculadoraSteps(WebDriver driver){
         this.driver = driver;
     }
 
@@ -24,11 +24,11 @@ public class SumarSteps {
     }
 
 
-    public void operacion(){
+    public void operacion(String opcion){
         WebElement operacionSuma = driver.findElement(CalculadoraPage.selectorInput);
         operacionSuma.click();
         Actions actions = new Actions(driver);
-        actions.sendKeys("d");
+        actions.sendKeys(opcion);
         actions.sendKeys(Keys.ENTER);
         actions.build().perform();
     }
@@ -39,6 +39,11 @@ public class SumarSteps {
 
     public void limpiar(){
         this.driver.findElement(CalculadoraPage.clearButton).click();
+    }
+
+    public String getResultado(){
+        WebElement resultado = driver.findElement(CalculadoraPage.answerInput);
+        return resultado.getText();
     }
 
 
